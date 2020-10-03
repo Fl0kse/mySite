@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}{{artic.article_titel}}{% endblock %}
+
+{% block content %}
+
+<h2>{{artic.article_titel}}</h2>
+
+<p>{{artic.article_text}}</p>
+
+<em>{{artic.pub_date}}</em>
+
+<hr>
+
+{% if latest_comments_list %}
+
+    {% for c in latest_comments_list %}
+        <p>
+          <strong>{{c.author_name}}</strong>
+          <p>{{c.comment_text}}</p>
+        </p>
+    {% endfor %}
+
+{% else %}
+Коментрии не найлены! Станьте первым:D
+{% endif %}
+
+<hr>
+
+<form action="{% url 'artic:leave_comment' artic.id %}" method="POST">
+
+    {% csrf_token %}
+
+    <input type="text" required placeholder="Ваше имя" name="name"><br>
+    <textarea name="text" required="" placeholder="Текст комментария" cols="30" rows="10"></textarea><br>
+
+    <button type="submit">Оставить коментарий</button>
+</form>
+{% endblock %}
